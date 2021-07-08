@@ -55,3 +55,24 @@ jobs:
           PGHOST: localhost
           PGUSER: postgres
         run: bin/rspec
+
+  type-check:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install bundle
+        run: bundle install --jobs 4 --retry 3
+      # install yarn dependencies
+      - uses: bahmutov/npm-install@v1
+
+      - name: Update sorbet files
+        run: bundle exec rake sorbet:update:all
+
+      - name: Run sorbet
+        run: bundle exec srb tc
