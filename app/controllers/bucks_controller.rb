@@ -15,8 +15,9 @@ class BucksController < ApplicationController
   end
 
   def img
-    send_data build_buck.to_blob,
-              filename: build_buck.filename,
+    image = BuckImage.new(build_buck)
+    send_data image.to_blob,
+              filename: image.filename,
               type: 'image/png',
               disposition: 'inline'
   end

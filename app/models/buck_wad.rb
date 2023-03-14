@@ -32,9 +32,9 @@ class BuckWad
   end
 
   def bucks_by_filename
-    hash = {}
-    @bucks.each_with_index { |buck, i| hash[buck.filename(i)] = buck }
-    hash
+    @bucks.map.with_index do |buck, i|
+      [BuckImage.new(buck).filename(i), buck]
+    end.to_h
   end
 
   private

@@ -3,7 +3,8 @@ class BillMailer < ApplicationMailer
     @buck_wad = buck_wad
     bucks = buck_wad.bucks_by_filename
     bucks.each do |file_name, buck|
-      attachments.inline[file_name] = buck.to_blob
+      image = BuckImage.new(buck)
+      attachments.inline[file_name] = image.to_blob
     end
     @from_email = from_email
 
